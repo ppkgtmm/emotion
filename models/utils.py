@@ -18,8 +18,7 @@ import matplotlib.pyplot as plt
 seed = 123456
 OH_encoder = None
 columns = ['text', 'target']
-data_path = '/content/drive/MyDrive/sentiment/data/data_preprocessed.csv'
-test_path = '/content/drive/MyDrive/sentiment/data/test_data_preprocessed.csv'
+data_path = '/content/drive/MyDrive/emotion/data/emotion_nlp.csv'
 num_words = 10000
 max_len = 250
 optimizers = [
@@ -28,7 +27,7 @@ optimizers = [
            'amsgrad'   
 ]
 
-def read_data(data_path, cols=columns):
+def read_data(data_path=data_path, cols=columns):
     if cols:
         return pd.read_csv(data_path)[cols]
 
