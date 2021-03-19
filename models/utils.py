@@ -134,15 +134,14 @@ def model_evaluate(model, X_test, y_test, batch_size=32, normalize="true"):
     #classification report
     print('\n')
     print(classification_report(np.argmax(y_test,axis=1), y_pred_test))
-
     #confusion matrix
     confmat = confusion_matrix(np.argmax(y_test,axis=1), y_pred_test, normalize=normalize)
-
-    fig, ax = plt.subplots(figsize=(4, 4))
+    fig, ax = plt.subplots(figsize=(5, 5))
     ax.matshow(confmat, cmap=plt.cm.Purples, alpha=0.3)
     for i in range(confmat.shape[0]):
         for j in range(confmat.shape[1]):
-            ax.text(x=j, y=i, s=confmat[i, j], va='center', ha='center')
+            ax.text(x=j, y=i, s=round(confmat[i, j],3), va='center', ha='center')
+
     plt.xlabel('Predicted label')
     plt.ylabel('True label')
     plt.tight_layout()
