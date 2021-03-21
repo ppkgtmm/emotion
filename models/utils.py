@@ -126,7 +126,7 @@ def get_model_from_config(base_line, optimizer, binary=True):
 
 
 def model_evaluate(model, X_test, y_test, batch_size=32, normalize="true"):
-    plt.rc('font', **{'size': 12})
+    plt.rc('font', **{'size': 13})
     # predict class with test set
     y_pred_test =  model.predict(X_test, batch_size=batch_size, verbose=1)
     print('Accuracy:\t{:0.1f}%'.format(accuracy_score(np.argmax(y_test,axis=1),np.argmax(y_pred_test,axis=1))*100))
@@ -149,6 +149,6 @@ def model_evaluate(model, X_test, y_test, batch_size=32, normalize="true"):
 
     plt.xlabel('Predicted label')
     plt.ylabel('True label')
-    plt.xticks(np.arange(len(classes)), classes, rotation=45)
-    plt.yticks(np.arange(len(classes)), classes)
+    plt.xticks(np.arange(len(classes)), classes, rotation=45, fontsize=14)
+    plt.yticks(np.arange(len(classes)), classes, fontsize=14)
     plt.tight_layout()
