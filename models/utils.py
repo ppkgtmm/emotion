@@ -141,7 +141,7 @@ def model_evaluate(model, X_test, y_test, batch_size=32, normalize="true"):
     #confusion matrix
     confmat = confusion_matrix(inverse_y_test, inverse_y_pred, normalize=normalize, labels=classes)
     fig = plt.figure()
-    fig, ax = plt.subplots(figsize=(5, 5))
+    fig, ax = plt.subplots(figsize=(6, 6))
     ax.matshow(confmat, cmap=plt.cm.Purples, alpha=0.3)
     for i in range(confmat.shape[0]):
         for j in range(confmat.shape[1]):
