@@ -126,23 +126,29 @@ def get_model_from_config(base_line, optimizer, binary=True):
 
 
 def model_evaluate(model, X_test, y_test, batch_size=32, normalize="true"):
-    plt.rc('font', **{'size': 12})
+    plt.rc('font', **{'size': 13})
     # predict class with test set
-    y_pred_test =  model.predict_classes(X_test, batch_size=batch_size, verbose=1)
-    print('Accuracy:\t{:0.1f}%'.format(accuracy_score(np.argmax(y_test,axis=1),y_pred_test)*100))
+    y_pred_test =  model.predict(X_test, batch_size=batch_size, verbose=1)
+    print('Accuracy:\t{:0.1f}%'.format(accuracy_score(np.argmax(y_test,axis=1),np.argmax(y_pred_test,axis=1))*100))
     
     #classification report
     print('\n')
-    print(classification_report(np.argmax(y_test,axis=1), y_pred_test))
-
+    assert OH_encoder is not None
+    inverse_y_test = OH_encoder.inverse_transform(y_test).reshape(-1, 1)
+    inverse_y_pred = OH_encoder.inverse_transform(y_pred_test).reshape(-1, 1)
+    classes = np.unique(inverse_y_test)
+    print(classification_report(inverse_y_test, inverse_y_pred))
     #confusion matrix
-    confmat = confusion_matrix(np.argmax(y_test,axis=1), y_pred_test, normalize=normalize)
-
-    fig, ax = plt.subplots(figsize=(4, 4))
+    confmat = confusion_matrix(inverse_y_test, inverse_y_pred, normalize=normalize, labels=classes)
+    fig = plt.figure()
+    fig, ax = plt.subplots(figsize=(6, 6))
     ax.matshow(confmat, cmap=plt.cm.Purples, alpha=0.3)
     for i in range(confmat.shape[0]):
         for j in range(confmat.shape[1]):
-            ax.text(x=j, y=i, s=confmat[i, j], va='center', ha='center')
+            ax.text(x=j, y=i, s=round(confmat[i, j],3), va='center', ha='center')
+
     plt.xlabel('Predicted label')
     plt.ylabel('True label')
+    plt.xticks(np.arange(len(classes)), classes, rotation=45, fontsize=14)
+    plt.yticks(np.arange(len(classes)), classes, fontsize=14)
     plt.tight_layout()
